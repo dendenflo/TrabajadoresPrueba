@@ -62,8 +62,6 @@
              data: { idDepartamento: departamento },
              success: function (data) {
 
-                 debugger
-                 //Recorre data y arma combo
                  $.each(data, function (i, data) {
                      $("#Provincia").append('<option value="'
                          + data.id + '">'
@@ -78,20 +76,14 @@
     }
 
     function SeleccionaProvincia() {
-        //obtengo valor de combo
         var provincia = $("#Provincia").val();
-        //lImpio datos de combo Provincia
         $("#Distritos").empty();
-        //Listo datos de Provincia
          $.ajax({
             type: 'POST',
             url: '@Url.Action("listaDistritos", "Trabajadores")',
             dataType: 'json',
              data: { idProvincia: provincia },
              success: function (data) {
-
-                 debugger
-                 //Recorre data y arma combo
                  $.each(data, function (i, data) {
                      $("#Distritos").append('<option value="'
                          + data.id + '">'
