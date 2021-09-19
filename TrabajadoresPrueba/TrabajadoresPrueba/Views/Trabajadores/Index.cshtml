@@ -1,0 +1,111 @@
+﻿@model IEnumerable<TrabajadoresPrueba.Entidades.PR_TRABA>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3 class="mx-auto" style="width: 310px;">
+    Listado de Trabajadores
+</h3>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary add-dialog-window">Nuevo Registro</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoDocumento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NroDocumento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sexo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreDepartamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreProvincia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreDistrito)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoDocumento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NroDocumento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sexo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreDepartamento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreProvincia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreDistrito)
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id">Editar</a>
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!--Modal Nuevo Registro-->
+<div class="modal fade" id="Add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Nuevo Registro</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="teeee">Por favor espere...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+        //ABRE EL MODAL
+        $("body").on("click", "a.add-dialog-window", null, function (e) {
+            e.preventDefault();
+            var $link = $(this);
+            var url = $(this).attr('href');
+            if (url.indexOf('#') == 0) {
+                $('#Add').modal('show');
+            }
+            else {
+                $.get(url, function (data) {
+                    $('#Add .teeee').html(data);
+                    $('#Add').modal();
+                }).success(function () { $('input:text:visible:first').focus(); });
+            }
+        });
+    </script>
+}
