@@ -14,7 +14,7 @@ namespace TrabajadoresPrueba.Entidades
         [Display(Name = "Tipo Documento")]
         public string TipoDocumento { get; set; }
 
-        [Display(Name = "Nro Documento")]
+        [Display(Name = "Numero Documento")]
         public string NroDocumento { get; set; }
 
         [Display(Name = "Nombres")]
@@ -31,27 +31,5 @@ namespace TrabajadoresPrueba.Entidades
 
         [Display(Name = "Distrito")]
         public int IdDistrito { get; set; }
-
-        public string TIP_DOCUM_VIEW
-        {
-            get
-            {
-                if (!String.IsNullOrEmpty(TipoDocumento))
-                {
-                    if (TipoDocumento.Equals("CXE"))
-                    {
-                        return "CARNET DE EXTRANJERIA";
-                    }
-                    else
-                    {
-                        return TipoDocumento;
-                    }
-                }
-                else
-                {
-                    return TipoDocumento;
-                }
-            }
-        }
     }
 }

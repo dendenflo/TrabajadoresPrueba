@@ -11,7 +11,7 @@
 <p>
     <a asp-action="Create" class="btn btn-primary add-dialog-window">Nuevo Registro</a>
 </p>
-<table class="table table-bordered">
+<table class="table table-responsive table-bordered">
     <thead>
         <tr>
             <th>
@@ -35,6 +35,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.NombreDistrito)
             </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -64,8 +65,10 @@
                     @Html.DisplayFor(modelItem => item.NombreDistrito)
                 </td>
                 <td>
-                    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id">Editar</a>
-                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Eliminar</a>
+                    <a asp-action="Edit" class="btn btn-warning editar-dialog-window" asp-route-id="@item.Id">Editar</a>
+                </td>
+                <td>
+                    <a data-id="@item.Id" class="btn btn-danger eliminar-dialog-window">Eliminar</a>
                 </td>
             </tr>
         }
@@ -74,16 +77,54 @@
 
 <!--Modal Nuevo Registro-->
 <div class="modal fade" id="Add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-info">
-                <h5 class="modal-title text-white" id="exampleModalLabel">Nuevo Registro</h5>
+                <h5 class="modal-title text-white" id="exampleModalLabel">Creación Trabajador</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="teeee">Por favor espere...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*DIV MODAL EDITAR*@
+<div class="modal fade" id="Editar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Actualizar Empresa</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="teeee">Please wait...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--MODAL ELIMINAR-->
+
+<div class="modal fade" id="Eliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Eliminar Empresa</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p></p>
+                <h5>¿Está seguro de eliminar el registro seleccionado?</h5>
+            </div>
+            <div id="response5" class="modal-footer">
             </div>
         </div>
     </div>
@@ -106,6 +147,32 @@
                     $('#Add').modal();
                 }).success(function () { $('input:text:visible:first').focus(); });
             }
+        });
+
+        //JS MODAL EDITAR
+        $("body").on("click", "a.editar-dialog-window", null, function (e) {
+            e.preventDefault();
+            var $link = $(this);
+            var url = $(this).attr('href');
+            if (url.indexOf('#') == 0) {
+                $('#Editar').modal('show');
+            }
+            else {
+                $.get(url, function (data) {
+                    $('#Editar .teeee').html(data);
+                    $('#Editar').modal();
+                }).success(function () { $('input:text:visible:first').focus(); });
+            }
+        });
+
+        //JS MODAL ELIMINAR
+
+        $("body").on("click", "a.eliminar-dialog-window", null, function (e) {
+
+            var htmlContent = '<br /><button type="button" id="btnNo" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">No</button>&nbsp&nbsp<a href="@Url.Action("DeleteConfirmed", "Trabajadores")/' + $(this).data('id') + '" class="btn btn-secondary">Si</a>';
+
+            $("#response5").html(htmlContent);
+            $('#Eliminar').modal('show');
         });
     </script>
 }

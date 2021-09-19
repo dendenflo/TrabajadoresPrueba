@@ -1,14 +1,14 @@
 ﻿@model TrabajadoresPrueba.Entidades.Trabajadores
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
 <div class="row">
-    <div class=" col-md-12">
-        <form asp-action="Create">
+    <div class="col-md-12">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-3">
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-md-9">
 
-                        <select required asp-for="IdDepartamento" asp-items="ViewBag.Departamentos" id="Departamento" onchange="SeleccionaDepartamento()" class="form-control"></select>
+                        <select required asp-for="IdDepartamento" asp-items="ViewBag.Departamentos" id="DepartamentoEdit" onchange="SeleccionaDepartamento()" class="form-control"></select>
                         <span asp-validation-for="IdDepartamento" class="text-danger"></span>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                     </div>
                     <div class="col-md-9">
 
-                        <select required asp-for="IdProvincia" asp-items="ViewBag.Provincias" id="Provincia" onchange="SeleccionaProvincia()" class="form-control"></select>
+                        <select required asp-for="IdProvincia" asp-items="ViewBag.Provincias" id="ProvinciaEdit" onchange="SeleccionaProvincia()" class="form-control"></select>
                         <span asp-validation-for="IdProvincia" class="text-danger"></span>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-md-9">
 
-                        <select required asp-for="IdDistrito" asp-items="ViewBag.Distritos" id="Distritos" class="form-control"></select>
+                        <select required asp-for="IdDistrito" asp-items="ViewBag.Distritos" id="DistritosEdit" class="form-control"></select>
                         <span asp-validation-for="IdDistrito" class="text-danger"></span>
                     </div>
                 </div>
@@ -116,12 +116,13 @@
         </form>
     </div>
 </div>
+
 <script>
 
     function SeleccionaDepartamento() {
         debugger
-        var departamento = $("#Departamento").val();
-        $("#Provincia").empty();
+        var departamento = $("#DepartamentoEdit").val();
+        $("#ProvinciaEdit").empty();
         $.ajax({
             type: 'POST',
             url: '@Url.Action("listaProvincias", "Trabajadores")',
@@ -130,7 +131,7 @@
              success: function (data) {
 
                  $.each(data, function (i, data) {
-                     $("#Provincia").append('<option value="'
+                     $("#ProvinciaEdit").append('<option value="'
                          + data.id + '">'
                          + data.nombreProvincia + '</option>');
                  });
@@ -143,8 +144,8 @@
     }
 
     function SeleccionaProvincia() {
-        var provincia = $("#Provincia").val();
-        $("#Distritos").empty();
+        var provincia = $("#ProvinciaEdit").val();
+        $("#DistritosEdit").empty();
          $.ajax({
             type: 'POST',
             url: '@Url.Action("listaDistritos", "Trabajadores")',
@@ -152,7 +153,7 @@
              data: { idProvincia: provincia },
              success: function (data) {
                  $.each(data, function (i, data) {
-                     $("#Distritos").append('<option value="'
+                     $("#DistritosEdit").append('<option value="'
                          + data.id + '">'
                          + data.nombreDistrito + '</option>');
                  });
